@@ -1,0 +1,160 @@
+/* =========================================================
+   css/seller.css — หน้าแม่ค้า (seller.html): เข้าสู่ระบบ + สรุปยอดขาย + รายการออเดอร์
+   ========================================================= */
+
+.brand-static { display: flex; align-items: center; height: 100%; }
+
+.primary-btn {
+  appearance: none;
+  width: 100%;
+  padding: 15px 24px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  font: 700 18px var(--font-body);
+  cursor: pointer;
+  box-shadow: 0 14px 24px -14px rgba(145, 29, 31, .95);
+  transition: transform .25s var(--ease-spring), background .2s, opacity .2s;
+}
+.primary-btn:hover:not(:disabled) { background: var(--red-deep); }
+.primary-btn:active:not(:disabled) { transform: scale(.98); }
+.primary-btn:disabled { opacity: .6; cursor: progress; }
+
+.form-error {
+  margin: 12px 0 0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: #FDECEC;
+  border: 1px solid #F2B8B8;
+  color: #8A1517;
+  font-weight: 600;
+  font-size: 14.5px;
+}
+
+/* ---------- เข้าสู่ระบบ ---------- */
+.login { min-height: calc(100dvh - var(--header-h)); display: grid; place-items: center; padding: 24px 16px; }
+.login-card {
+  width: min(380px, 100%);
+  padding: 30px 24px 24px;
+  border-radius: 28px;
+  background: #fff;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  animation: rise .5s var(--ease-out) both;
+}
+.login-icon {
+  width: 68px; height: 68px; margin: 0 auto 14px; border-radius: 50%;
+  background: var(--red-soft); color: var(--red); display: grid; place-items: center;
+}
+.login-icon svg { width: 34px; height: 34px; }
+.login-card h1 { margin: 0; font: 500 26px/1.2 var(--font-display); color: var(--red); }
+.login-card p { margin: 6px 0 18px; color: var(--muted); }
+.login-card input {
+  width: 100%; margin-bottom: 6px; padding: 14px 16px; border: 2px solid var(--red-line); border-radius: 16px;
+  font: 600 22px var(--font-body); letter-spacing: .25em; text-align: center; color: var(--ink); background: #fff;
+}
+.login-card input:focus { outline: none; border-color: var(--red); }
+.login-card .form-error { margin: 8px 0 12px; }
+.login-card .primary-btn { margin-top: 12px; }
+.login-card p.demo-hint { margin: 14px 0 0; font-size: 14px; }
+
+/* ---------- แดชบอร์ด ---------- */
+.dash { padding: 18px 16px calc(40px + env(safe-area-inset-bottom, 0px)); }
+.dash-wrap { max-width: 1000px; margin: 0 auto; }
+
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-bottom: 16px; }
+.toolbar .spacer { flex: 1; }
+.date-pick { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; }
+.date-pick input {
+  padding: 9px 12px; border: 2px solid var(--red-line); border-radius: 14px; background: #fff;
+  font: 600 15.5px var(--font-body); color: var(--ink);
+}
+.date-pick input:focus { outline: none; border-color: var(--red); }
+.tool-btn {
+  appearance: none;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 16px; border: 2px solid var(--red-line); border-radius: 999px; background: #fff; color: var(--red);
+  font: 700 14.5px var(--font-body); cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.tool-btn svg { width: 19px; height: 19px; }
+.tool-btn:hover { border-color: var(--red); }
+.tool-btn[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: #fff; }
+.tool-btn.icon { padding: 9px 11px; }
+.tool-btn.spin svg { animation: roll .8s linear infinite; }
+
+/* ---------- สรุปยอดขาย ---------- */
+.summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 18px; }
+.stat {
+  padding: 14px 14px 12px; border-radius: 22px; background: #fff; box-shadow: var(--shadow-card);
+  display: flex; flex-direction: column; gap: 2px; min-width: 0;
+}
+.stat small { color: var(--muted); font-weight: 700; font-size: 13px; }
+.stat b { font: 500 clamp(26px, 6vw, 40px)/1.1 var(--font-display); color: var(--red); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.stat span { color: var(--muted); font-size: 12.5px; }
+.stat.main { grid-column: 1 / -1; background: var(--red); color: #fff; }
+.stat.main small, .stat.main span { color: rgba(255, 255, 255, .82); }
+.stat.main b { color: #fff; font-size: clamp(38px, 10vw, 58px); }
+@media (min-width: 700px) {
+  .summary { grid-template-columns: 2fr 1fr 1fr 1fr; }
+  .stat.main { grid-column: auto; }
+}
+
+/* ---------- กรองสถานะ ---------- */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.tab {
+  appearance: none; padding: 8px 16px; border: 0; border-radius: 999px; background: #fff; color: var(--muted);
+  font: 700 14.5px var(--font-body); cursor: pointer; box-shadow: 0 0 0 1px var(--red-line) inset;
+  font-variant-numeric: tabular-nums; transition: background .2s, color .2s;
+}
+.tab:hover { color: var(--red); }
+.tab[aria-selected="true"] { background: var(--red); color: #fff; box-shadow: none; }
+
+/* ---------- การ์ดออเดอร์ ---------- */
+.orders { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 14px; }
+.order {
+  display: flex; flex-direction: column; border-radius: 24px; background: #fff; box-shadow: var(--shadow-card);
+  overflow: hidden; border-top: 6px solid var(--red); animation: rise .4s var(--ease-out) both;
+}
+.order.done { border-top-color: #4C8B3F; }
+.order.cancelled { border-top-color: #B8AAA8; opacity: .72; }
+.order.is-new { animation: rise .4s var(--ease-out) both, newflash 1.6s ease-out 2; }
+@keyframes newflash { 0%, 100% { box-shadow: var(--shadow-card); } 40% { box-shadow: 0 0 0 5px rgba(145, 29, 31, .35), var(--shadow-card); } }
+
+.o-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 14px 16px 6px; }
+.o-no { font: 500 38px/1 var(--font-display); color: var(--red); }
+.order.cancelled .o-no { text-decoration: line-through; color: var(--muted); }
+.o-meta { margin-top: 4px; color: var(--muted); font-size: 14px; }
+.o-meta b { color: var(--ink); }
+.pill { flex: none; padding: 4px 12px; border-radius: 999px; font-weight: 700; font-size: 13px; background: var(--red-soft); color: var(--red); }
+.order.done .pill { background: #E6F2E2; color: #2F6B25; }
+.order.cancelled .pill { background: #EEE8E7; color: #6E6362; }
+
+.o-items { list-style: none; margin: 0; padding: 6px 16px 4px; }
+.o-items li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 9px 0; border-bottom: 1px dashed var(--red-line); }
+.o-items li:last-child { border-bottom: 0; }
+.oi-name { font-weight: 700; font-size: 16.5px; }
+.oi-name em { font-style: normal; color: var(--red); margin-left: 4px; }
+.oi-qty { color: var(--red); font: 600 18px var(--font-display); margin-left: 6px; }
+.oi-opt { grid-column: 1; color: var(--muted); font-size: 14px; }
+.oi-price { grid-row: 1; grid-column: 2; align-self: start; font-weight: 700; font-variant-numeric: tabular-nums; }
+.o-note { margin: 4px 16px 6px; padding: 8px 12px; border-radius: 12px; background: #FFF6DB; border: 1px solid #F0DC9B; color: #5A4300; font-size: 14.5px; }
+
+.o-foot { margin-top: auto; padding: 10px 16px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; border-top: 1px solid var(--red-line); }
+.o-total small { display: block; color: var(--muted); font-weight: 700; font-size: 12.5px; line-height: 1.1; }
+.o-total b { font: 500 30px/1.1 var(--font-display); color: var(--red); font-variant-numeric: tabular-nums; }
+.o-actions { display: flex; gap: 8px; }
+.act {
+  appearance: none; padding: 10px 18px; border: 2px solid var(--red); border-radius: 999px; background: #fff; color: var(--red);
+  font: 700 15px var(--font-body); cursor: pointer; transition: background .2s, color .2s;
+}
+.act:hover { background: var(--red-soft); }
+.act.go { background: var(--red); color: #fff; }
+.act.go:hover { background: var(--red-deep); }
+.act.quiet { border-color: var(--red-line); color: var(--muted); }
+.act:disabled { opacity: .5; cursor: progress; }
+
+.empty-orders { padding: 44px 16px; text-align: center; color: var(--muted); }
+.empty-orders strong { display: block; font: 500 22px var(--font-display); color: var(--ink); margin-bottom: 4px; }
+.updated { margin: 18px 0 0; text-align: center; color: var(--muted); font-size: 13px; }

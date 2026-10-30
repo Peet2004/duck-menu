@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#911D1F">
+  <title>สั่งอาหาร เป็ดย่างบางกะปิ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/customer-menu.css">
+  <link rel="stylesheet" href="css/customer-detail.css">
+  <link rel="stylesheet" href="css/customer-cart.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-in">
+      <button class="brand" id="brand" type="button" aria-label="เป็ดย่างบางกะปิ">
+        <img class="logo" src="logo/logo.png" alt="เป็ดย่างบางกะปิ"
+             onerror="this.closest('.brand').classList.add('no-logo')">
+        <span class="brand-fallback">เป็ดย่างบางกะปิ</span>
+      </button>
+      <div class="topbar-title">
+        <span class="t1">สั่งอาหาร</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <nav class="rail" id="rail" aria-label="หมวดหมู่เมนู">
+      <div class="rail-in" id="railIn">
+        <span class="indicator" id="indicator" aria-hidden="true"></span>
+      </div>
+    </nav>
+
+    <main class="main" id="main">
+      <div class="wrap">
+        <div class="notice" id="notice" role="status" hidden></div>
+        <section class="head" id="head" aria-live="polite"></section>
+        <div id="gridWrap"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- popup รายละเอียดเมนู + ตัวเลือก (js/customer/item-detail.js) -->
+  <dialog class="detail" id="detail" aria-labelledby="dName"></dialog>
+
+  <!-- หน้าต่างออเดอร์ (js/customer/cart-sheet.js) -->
+  <dialog class="sheet" id="cartSheet" aria-labelledby="cartTitle"></dialog>
+
+  <!-- หน้าเสร็จสิ้น (js/customer/order-done.js) -->
+  <div class="done-view" id="doneView" role="dialog" aria-modal="true" aria-labelledby="doneTitle" hidden></div>
+
+  <div class="burst-layer" id="burst" aria-hidden="true"></div>
+
+  <script>
+    /* หน้านี้ใช้ ES modules ซึ่งเปิดจากไฟล์ตรง ๆ (file://) ไม่ได้ ให้เปิดผ่านเซิร์ฟเวอร์ เช่น Live Server ใน VS Code หรือ GitHub Pages */
+    if (location.protocol === 'file:') {
+      addEventListener('DOMContentLoaded', function () {
+        document.getElementById('notice').hidden = false;
+        document.getElementById('notice').textContent =
+          'เปิดไฟล์ตรง ๆ ไม่ได้ กรุณาเปิดผ่าน Live Server (VS Code) หรือ GitHub Pages';
+      });
+    }
+  </script>
+  <script type="module" src="js/customer/main.js"></script>
+</body>
+</html>

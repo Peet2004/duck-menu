@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#911D1F">
+  <title>หน้าแม่ค้า — เป็ดย่างบางกะปิ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/seller.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-in">
+      <div class="brand-static">
+        <img class="logo" src="logo/logo.png" alt="เป็ดย่างบางกะปิ" onerror="this.hidden=true">
+      </div>
+      <div class="topbar-title"><span class="t1">หน้าแม่ค้า</span></div>
+    </div>
+  </header>
+
+  <!-- เข้าสู่ระบบด้วยรหัส (js/seller/seller-auth.js) -->
+  <main class="login" id="loginView">
+    <form class="login-card" id="loginForm" autocomplete="off">
+      <div class="login-icon" id="loginIcon"></div>
+      <h1>สำหรับแม่ค้าเท่านั้น</h1>
+      <p>ใส่รหัสเพื่อดูออเดอร์และยอดขาย</p>
+      <input id="pinInput" type="password" inputmode="numeric" autocomplete="current-password" placeholder="รหัสผ่าน" aria-label="รหัสผ่าน" required>
+      <p class="form-error" id="loginError" role="alert" hidden></p>
+      <button class="primary-btn" type="submit" id="loginBtn">เข้าสู่ระบบ</button>
+      <p class="demo-hint" id="demoHint" hidden>โหมดตัวอย่าง: รหัสสำหรับทดลองคือ <b>1234</b></p>
+    </form>
+  </main>
+
+  <!-- ออเดอร์และยอดขาย (js/seller/orders-view.js, sales-summary.js) -->
+  <main class="dash" id="dashView" hidden>
+    <div class="dash-wrap">
+      <div class="notice" id="notice" role="status" hidden></div>
+
+      <div class="toolbar">
+        <label class="date-pick"><span>วันที่</span><input type="date" id="dateInput"></label>
+        <button class="tool-btn" type="button" id="todayBtn" hidden>กลับไปวันนี้</button>
+        <span class="spacer"></span>
+        <button class="tool-btn" type="button" id="soundBtn" aria-pressed="false"></button>
+        <button class="tool-btn icon" type="button" id="refreshBtn" aria-label="รีเฟรช"></button>
+        <button class="tool-btn" type="button" id="logoutBtn">ออก</button>
+      </div>
+
+      <section class="summary" id="summary" aria-live="polite"></section>
+
+      <div class="tabs" id="tabs" role="tablist" aria-label="กรองออเดอร์"></div>
+      <div id="orders"></div>
+      <p class="updated" id="updated"></p>
+    </div>
+  </main>
+
+  <script type="module" src="js/seller/main.js"></script>
+</body>
+</html>
