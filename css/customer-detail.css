@@ -271,6 +271,9 @@ dialog.detail::backdrop {
 .add-btn:disabled { justify-content: center; background: var(--red-line); color: var(--muted); box-shadow: none; cursor: default; }
 
 @media (min-width: 760px) {
-  .d-media { aspect-ratio: auto; }
+  /* จอกว้าง: รูปซ้าย + รายละเอียดขวา — ให้ฝั่งขวาเลื่อนขึ้นลงได้เมื่อตัวเลือกยาวกว่าจอ */
+  .d-view { grid-template-rows: minmax(0, 1fr); }
+  .d-media { aspect-ratio: auto; min-height: 0; }
+  .d-body { min-height: 0; }
   .d-body { --px: 34px; --pb: 28px; padding-top: 34px; }
 }
