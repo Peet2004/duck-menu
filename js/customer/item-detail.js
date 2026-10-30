@@ -79,8 +79,8 @@ function fillDetail(dir = 0) {
   modal.addons = ok ? addonsFor(item, state.addons) : [];
 
   dlg.innerHTML = `
+    <button class="d-close" type="button" data-close aria-label="ปิด">${ICONS.close}</button>
     <div class="d-view ${dir > 0 ? 'from-right' : dir < 0 ? 'from-left' : ''}">
-      <button class="d-close" type="button" data-close aria-label="ปิด">${ICONS.close}</button>
       <div class="d-media">
         ${mediaHTML(item)}
         ${item.featured ? `<span class="badge">${ICONS.star}แนะนำ</span>` : ''}
@@ -89,13 +89,19 @@ function fillDetail(dir = 0) {
         <button class="m-nav next" type="button" data-next aria-label="เมนูถัดไป">${ICONS.right}</button>
         <span class="m-count">${modal.index + 1} / ${n}</span>` : ''}
       </div>
-      <div class="d-body">
-        <div class="d-tags"><span class="tag">${esc(c.label)}</span>${modal.randomUid === item.uid ? '<span class="tag hot">เมนูที่สุ่มได้</span>' : ''}</div>
-        <h2 class="d-name" id="dName">${esc(item.name)}</h2>
-        ${item.desc ? `<p class="d-desc">${esc(item.desc)}</p>` : ''}
-        <div class="d-price">${priceHTML(item)}${item.available ? '' : '<p class="d-sold">เมนูนี้หมดชั่วคราว</p>'}</div>
-        ${ok && item.hasSpecial ? sizeHTML(item) : ''}
-        ${ok && modal.addons.length ? addonHTML(modal.addons) : ''}
+      <div class="d-panel">
+        <div class="d-scroll">
+          <div class="d-tags"><span class="tag">${esc(c.label)}</span>${modal.randomUid === item.uid ? '<span class="tag hot">เมนูที่สุ่มได้</span>' : ''}</div>
+          <h2 class="d-name" id="dName">${esc(item.name)}</h2>
+          <div class="d-price">${priceHTML(item)}${item.available ? '' : '<p class="d-sold">เมนูนี้หมดชั่วคราว</p>'}</div>
+          <p class="scroll-cue" data-cue hidden>เลื่อนลงดูรายละเอียด${ICONS.down}</p>
+          ${item.desc ? `<section class="d-section" aria-labelledby="dDescTitle">
+            <h3 class="d-section-title" id="dDescTitle">รายละเอียด</h3>
+            <p class="d-desc">${esc(item.desc)}</p>
+          </section>` : ''}
+          ${ok && item.hasSpecial ? sizeHTML(item) : ''}
+          ${ok && modal.addons.length ? addonHTML(modal.addons) : ''}
+        </div>
         <div class="d-foot">
           ${ok ? `<div class="qty-row">
               <span class="opt-title">จำนวน</span>
@@ -110,6 +116,19 @@ function fillDetail(dir = 0) {
   const num = $('[data-num]', dlg);
   if (num) { num.dataset.cur = item.price; }
   refreshOptions();
+  setupScrollCue();
+}
+
+/* แสดงคำใบ้ "เลื่อนลงดูรายละเอียด" เฉพาะเมื่อเนื้อหายาวเกินจอ (มือถือ) และซ่อนเมื่อผู้ใช้เลื่อนแล้ว */
+function setupScrollCue() {
+  const view = $('.d-view', dlg);
+  const cue = $('[data-cue]', dlg);
+  if (!view || !cue) return;
+  const more = () => view.scrollHeight - view.clientHeight > 48;
+  const sync = () => { cue.hidden = !more() || view.scrollTop > 24 || getComputedStyle(view).overflowY === 'hidden'; };
+  view.addEventListener('scroll', sync, { passive: true });
+  requestAnimationFrame(sync);
+  setTimeout(sync, 400); // หลังรูป/ฟอนต์โหลดแล้ว ความสูงอาจเปลี่ยน
 }
 
 export function openDetail(uid, { random = false } = {}) {

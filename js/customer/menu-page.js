@@ -113,13 +113,30 @@ function buildRail() {
     </button>`).join(''));
 }
 
-export function positionIndicator() {
+/* แถบหมวดหมู่เป็นแนวนอนบนมือถือ (flex-direction: row) และแนวตั้งบนจอใหญ่ */
+const isHorizontalRail = () => getComputedStyle(els.railIn).flexDirection === 'row';
+
+export function positionIndicator({ center = false } = {}) {
   const btn = $(`.cat[data-cat="${state.cat}"]`, els.railIn);
   if (!btn) return;
   els.railIn.querySelectorAll('.cat').forEach(b => b.setAttribute('aria-current', String(b === btn)));
-  els.indicator.style.height = btn.offsetHeight + 'px';
-  els.indicator.style.transform = `translateY(${btn.offsetTop}px)`;
-  if (!els.indicator.classList.contains('ready')) requestAnimationFrame(() => els.indicator.classList.add('ready'));
+  const ind = els.indicator;
+  if (isHorizontalRail()) {
+    ind.style.width = btn.offsetWidth + 'px';
+    ind.style.height = btn.offsetHeight + 'px';
+    ind.style.transform = `translate(${btn.offsetLeft}px, ${btn.offsetTop}px)`;
+    if (center) {
+      // เลื่อนแท็บที่เลือกให้อยู่กลางแถบ เพื่อให้เห็นหมวดข้างเคียง
+      const rail = els.railIn.parentElement;
+      const left = btn.offsetLeft - (rail.clientWidth - btn.offsetWidth) / 2;
+      rail.scrollTo({ left: Math.max(0, left), behavior: reduced ? 'auto' : 'smooth' });
+    }
+  } else {
+    ind.style.width = '';
+    ind.style.height = btn.offsetHeight + 'px';
+    ind.style.transform = `translateY(${btn.offsetTop}px)`;
+  }
+  if (!ind.classList.contains('ready')) requestAnimationFrame(() => ind.classList.add('ready'));
 }
 
 export function setCategory(key, { pop = true, scroll = true } = {}) {
@@ -130,13 +147,17 @@ export function setCategory(key, { pop = true, scroll = true } = {}) {
   state.featuredOnly = false;
   renderHead(changed);
   renderGrid();
-  positionIndicator();
+  positionIndicator({ center: true });
   try { history.replaceState(null, '', '#' + key); } catch { /* file:// ฯลฯ */ }
   if (pop) {
     const btn = $(`.cat[data-cat="${key}"]`, els.railIn);
     btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop');
   }
-  if (scroll && changed) window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+  if (scroll && changed) {
+    // มือถือ: แท็บหมวดติดอยู่ด้านบน เลื่อนมาหยุดใต้แท็บพอดี (ไม่เด้งกลับไปบนสุดจนเห็นแถบโลโก้ซ้ำ)
+    const stop = isHorizontalRail() ? ($('.topbar')?.offsetHeight || 0) : 0;
+    if (window.scrollY > stop) window.scrollTo({ top: stop, behavior: reduced ? 'auto' : 'smooth' });
+  }
 }
 
 /* ---------- สุ่มเมนู ---------- */
@@ -219,9 +240,9 @@ function bindEvents() {
     img.replaceWith(art);
   }, true);
 
-  window.addEventListener('resize', positionIndicator);
-  if ('ResizeObserver' in window) new ResizeObserver(positionIndicator).observe(els.railIn);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(positionIndicator);
+  window.addEventListener('resize', () => positionIndicator());
+  if ('ResizeObserver' in window) new ResizeObserver(() => positionIndicator()).observe(els.railIn);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => positionIndicator({ center: true }));
 
   window.addEventListener('hashchange', () => {
     const k = location.hash.slice(1);

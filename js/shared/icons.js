@@ -13,6 +13,7 @@
     arrow: svgIcon('<path d="M5 12h14M13 6l6 6-6 6"/>'),
     left: svgIcon('<path d="M15 5l-7 7 7 7"/>'),
     right: svgIcon('<path d="M9 5l7 7-7 7"/>'),
+    down: svgIcon('<path d="M5 9l7 7 7-7"/>'),
     close: svgIcon('<path d="M6 6l12 12M18 6L6 18"/>'),
     star: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg>',
     roast: svgIcon('<ellipse cx="14.6" cy="9.4" rx="6.4" ry="5" transform="rotate(-45 14.6 9.4)"/><path d="M10.4 13.6L6 18"/><circle cx="4.6" cy="17.4" r="1.7"/><circle cx="6.6" cy="19.5" r="1.7"/><path d="M13 6.6c1.300-.7 3-.5 4.200.700" stroke-width="1.400"/>'),
